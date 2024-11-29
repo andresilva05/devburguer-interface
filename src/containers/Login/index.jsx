@@ -5,13 +5,14 @@ import * as yup from 'yup';
 import { api } from '../../services/api';
 import { toast } from 'react-toastify';
 
-import Logo from '../../assets/logo.png';
+import Logo from '../../assets/logo-login.svg';
 import { Button } from '../../components/Button';
+
+import { ContainerLeft } from '../../components/LogoLeft';
 import {
   Container,
   Form,
   InputContainer,
-  LeftContainer,
   RightContainer,
   Title,
   Link,
@@ -44,7 +45,9 @@ export function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await toast.promise(
+      const {
+        data: { token },
+      } = await toast.promise(
         api.post('/session', {
           email: data.email,
           password: data.password,
@@ -62,20 +65,21 @@ export function Login() {
           error: 'E-mail ou Senha incorretos',
         },
       );
+    
+      localStorage.setItem('token', token)
 
-      console.log(response);
     } catch (error) {
       console.error(error);
-      toast.error('Ocorreu um erro inesperado. Tente novamente!')
+      toast.error('Ocorreu um erro inesperado. Tente novamente!');
     }
   };
 
   return (
     <div>
       <Container>
-        <LeftContainer>
+        <ContainerLeft>
           <img src={Logo} alt="logo-dev-burguer" />
-        </LeftContainer>
+        </ContainerLeft>
         <RightContainer>
           <Title>
             Olá,seja bem vindo ao <span>Dev Burguer!</span>
