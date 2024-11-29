@@ -10,23 +10,6 @@ export const Container = styled.div`
 
 `;
 
-export const LeftContainer = styled.div`
-    background:  url('${BackgroundLogin}');
-    background-size: cover;
-    background-position: center;
-
-    height: 100%;
-    width: 100%;
-    max-width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img{
-        width: 80%;
-    }
-`;
-
 export const RightContainer = styled.div`
     display: flex;
     justify-content: center;
