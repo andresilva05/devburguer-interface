@@ -9,6 +9,8 @@ export const Container = styled.div`
   border-radius: 8px;
   background-color: #ffffff;
   cursor: grab;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  position: relative;
 
   div {
     display: flex;
@@ -32,11 +34,9 @@ export const Container = styled.div`
     font-weight: 800;
     line-height: 20px;
   }
-
 `;
 
 export const CardImage = styled.img`
-    height: 100px;
-    position: absolute;
-    
+  height: 100px;
+  position: absolute;
 `;
