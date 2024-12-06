@@ -7,106 +7,94 @@ import { toast } from 'react-toastify';
 
 import Logo from '../../assets/logo-login.svg';
 import { Button } from '../../components/Button';
+import { useUser } from '../../hooks/UserContext';
 
 import { ContainerLeft } from '../../components/LogoLeft';
-import {
-  Container,
-  Form,
-  InputContainer,
-  RightContainer,
-  Title,
-  Link,
-} from './styles';
+import { Container, Form, InputContainer, RightContainer, Title, Link } from './styles';
 
 export function Login() {
-  const navigate = useNavigate();
-  const schema = yup
-    .object({
-      email: yup
-        .string()
-        .email('Digite um e-mail válido')
-        .required('O e-mail é obrigatório'),
-      password: yup
-        .string()
-        .min(6, 'A senha dev ter pelo menos 6 caracteres')
-        .required('Digite uma senha'),
-    })
-    .required();
+	const navigate = useNavigate();
+	const { putUserData } = useUser();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+	const schema = yup
+		.object({
+			email: yup.string().email('Digite um e-mail válido').required('O e-mail é obrigatório'),
+			password: yup.string().min(6, 'A senha dev ter pelo menos 6 caracteres').required('Digite uma senha'),
+		})
+		.required();
 
-  console.log(errors);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	});
 
-  const onSubmit = async (data) => {
-    try {
-      const {
-        data: { token },
-      } = await toast.promise(
-        api.post('/session', {
-          email: data.email,
-          password: data.password,
-        }),
-        {
-          pending: 'Verificando seus dados...',
-          success: {
-            render() {
-              setTimeout(() => {
-                navigate('/');
-              }, 2000);
-              return `Seja Bem-vindo(a), ${data.user.name}!`;
-            },
-          },
-          error: 'E-mail ou Senha incorretos',
-        },
-      );
-    
-      localStorage.setItem('token', token)
+	const onSubmit = async (data) => {
+		try {
+			const { data: userData } = await toast.promise(
+				api.post('/session', {
+					email: data.email,
+					password: data.password,
+				}),
 
-    } catch (error) {
-      console.error(error);
-      toast.error('Ocorreu um erro inesperado. Tente novamente!');
-    }
-  };
+				{
+					pending: 'Verificando seus dados',
 
-  return (
-    <div>
-      <Container>
-        <ContainerLeft>
-          <img src={Logo} alt="logo-dev-burguer" />
-        </ContainerLeft>
-        <RightContainer>
-          <Title>
-            Olá,seja bem vindo ao <span>Dev Burguer!</span>
-            <br />
-            Acesse com seu<span> Login e senha.</span>
-          </Title>
+					success: {
+						render() {
+							setTimeout(() => {
+								navigate('/');
+							}, 2000);
+							return 'Seja Bem-vinda(a)👌';
+						},
+					},
 
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <InputContainer>
-              <label htmlFor="">Email</label>
-              <input type="email" {...register('email')} />
-              <p>{errors?.email?.message}</p>
-            </InputContainer>
+					error: 'Email ou Senha Incorretos 🤯',
+				},
+			);
 
-            <InputContainer>
-              <label htmlFor="">Senha</label>
-              <input type="password" {...register('password')} />
-              <p>{errors?.password?.message}</p>
-            </InputContainer>
+			putUserData(userData);
+		} catch (error) {
+			console.error(error);
+			toast.error('Ocorreu um erro inesperado. Tente novamente!');
+		}
+	};
 
-            <Button type="submit">Entrar</Button>
-          </Form>
-          <p>
-            Não possui conta? <Link to="/cadastro">Clique aqui.</Link>
-          </p>
-        </RightContainer>
-      </Container>
-    </div>
-  );
+	return (
+		<div>
+			<Container>
+				<ContainerLeft>
+					<img src={Logo} alt="logo-dev-burguer" />
+				</ContainerLeft>
+				<RightContainer>
+					<Title>
+						Olá,seja bem vindo ao <span>Dev Burguer!</span>
+						<br />
+						Acesse com seu<span> Login e senha.</span>
+					</Title>
+
+					<Form onSubmit={handleSubmit(onSubmit)}>
+						<InputContainer>
+							<label htmlFor="">Email</label>
+							<input type="email" {...register('email')} />
+							<p>{errors?.email?.message}</p>
+						</InputContainer>
+
+						<InputContainer>
+							<label htmlFor="">Senha</label>
+							<input type="password" {...register('password')} />
+							<p>{errors?.password?.message}</p>
+						</InputContainer>
+
+						<Button type="submit">Entrar</Button>
+					</Form>
+					<p>
+						Não possui conta? <Link to="/cadastro">Clique aqui.</Link>
+					</p>
+				</RightContainer>
+			</Container>
+		</div>
+	);
 }
