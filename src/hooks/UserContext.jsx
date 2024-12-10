@@ -29,7 +29,7 @@ export const UserProvider = ({ children }) => {
 export const useUser = () => {
 	const context = useContext(UserContext);
 	if (!context) {
-		throw new Error('useUser must be a valid context'); //useUser deve ser um contexto válido
+		throw new Error('useUser must be a valid context'); 
 	}
 	return context;
 };
