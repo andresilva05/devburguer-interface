@@ -29,11 +29,17 @@ export const Navigation = styled.nav`
     align-items: center;
     gap: 20px;
   }
+
+  hr {
+    height: 24px;
+    border: 1px solid #625e5e;
+  }
 `;
 
 export const HeaderLink = styled(Link)`
-  color: #fff;
   text-decoration: none;
+  color: ${(props) => (props.$isActive ? '#9758a6' : ' #fff')};
+  border-bottom: ${(props) => (props.$isActive ? '1px solid #9758a6' : 'none')};
   font-size: 14px;
   transition: color 200ms;
 
@@ -49,32 +55,32 @@ export const Options = styled.div`
 `;
 
 export const Profile = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
 
-    p {
-        color: #fff;
-        line-height: 90%;
-        font-weight: 300;
-    }
+  p {
+    color: #fff;
+    line-height: 90%;
+    font-weight: 300;
+  }
 
-    span {
-        color: #9758a6;
-        font-weight: 700;
-    }
+  span {
+    color: #9758a6;
+    font-weight: 700;
+  }
 `;
 
 export const LinkContainer = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 export const Logout = styled.button`
-    color: #ff3205;
-    text-decoration: none;
-    font-weight: 700;
-    background-color: transparent;
-    border: none;
+  color: #ff3205;
+  text-decoration: none;
+  font-weight: 700;
+  background-color: transparent;
+  border: none;
 `;
