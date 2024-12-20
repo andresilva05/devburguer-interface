@@ -6,11 +6,15 @@ import { router } from './routes';
 
 import GlobaStyles from './styles/globalStyles';
 import AppProvider from './hooks';
+import { Elements } from '@stripe/react-stripe-js';
+import stripePromise from './config/stripeConfig';
 
 createRoot(document.getElementById('root')).render(
 	<StrictMode>
 		<AppProvider>
-			<RouterProvider router={router} />
+			<Elements stripe={stripePromise}>
+				<RouterProvider router={router} />
+			</Elements>
 			<GlobaStyles />
 			<ToastContainer autoClose={2000} theme="dark" />
 		</AppProvider>
