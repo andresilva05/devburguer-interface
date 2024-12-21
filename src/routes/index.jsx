@@ -8,11 +8,9 @@ export const router = createBrowserRouter([
 		path: '/',
 		element: (
 			<>
-			
 				<Header />
 				<Home />
 				<Footer />
-				
 			</>
 		),
 	},
@@ -35,26 +33,14 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: '/carrinho',
-		element: (
-			<>
-				<Cart />
-			</>
-		),
+		element: <Cart />,
 	},
 	{
 		path: '/checkout',
-		element: (
-			<>
-				<Checkout />
-			</>
-		),
+		element: <Checkout />,
 	},
 	{
 		path: '/complete',
-		element: (
-			<>
-				<CompletePayment />
-			</>
-		),
+		element: <CompletePayment />,
 	},
 ]);
