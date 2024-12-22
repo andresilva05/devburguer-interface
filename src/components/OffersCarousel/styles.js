@@ -16,7 +16,7 @@ export const Container = styled.div`
 export const Title = styled.h2`
   font-size: 32px;
   font-weight: 800;
-  color: #61a120;
+  color: ${(props) => props.theme.gren};
   padding-bottom: 12px;
   text-align: center;
   margin: 70px 0;
@@ -26,7 +26,7 @@ export const Title = styled.h2`
     display: block;
     width: 56px;
     height: 4px;
-    background-color: #61a120;
+    background-color: ${(props) => props.theme.gren};
     margin: 12px auto 0;
   }
 `;
