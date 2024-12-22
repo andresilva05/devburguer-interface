@@ -1,6 +1,8 @@
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import '../CheckoutForm/styles.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 import { useState } from 'react';
 import './styles.css';
 import { useCart } from '../../../hooks/CartContext';
@@ -8,7 +10,7 @@ import { api } from '../../../services/api';
 import { toast } from 'react-toastify';
 
 export default function CheckoutForm() {
-	const { cardProducts, clearCart } = useCart();
+	const { cartProducts, clearCart } = useCart();
 
 	const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ export default function CheckoutForm() {
 			toast.error(error.message);
 		} else if (paymentIntent && paymentIntent.status === 'succeeded') {
 			try {
-				const products = cardProducts.map((product) => {
+				const products = cartProducts.map((product) => {
 					return {
 						id: product.id,
 						quantity: product.quantity,
@@ -59,8 +61,7 @@ export default function CheckoutForm() {
 
 				if (status === 200 || status === 201) {
 					setTimeout(() => {
-						navigate('/complete');
-						clearCart();
+						navigate(`/complete?payment_intent_client_secret=${paymentIntent.client_secret}`);
 					}, 2000);
 					clearCart();
 					toast.success('Pedido Realizado com Sucesso!');
@@ -73,7 +74,7 @@ export default function CheckoutForm() {
 				toast.error('😭 Falha no Sistema! Tente novamente');
 			}
 		} else {
-			toast.error('😭 Falha no Sistema! Tente novamente');
+			navigate(`/complete?payment_intent_client_secret=${paymentIntent.client_secret}`);
 		}
 
 		setIsLoading(false);
@@ -87,8 +88,8 @@ export default function CheckoutForm() {
 		<div className="container">
 			<form id="payment-form" onSubmit={handleSubmit}>
 				<PaymentElement id="payment-element" options={paymentElementOptions} />
+				{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
 				<button disabled={isLoading || !stripe || !elements} id="submit" className="button">
-					{/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
 					<span id="button-text">
 						{/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
 						{isLoading ? <div className="spinner" id="spinner"></div> : 'Pagar Agora'}
