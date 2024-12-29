@@ -27,7 +27,7 @@ export const NavLink = styled(Link)`
   text-decoration: none;
   color: ${(props) => props.theme.white};
   background-color: ${(props) =>
-    props.isActive ? props.theme.purple : 'transparent'};
+    props.$isActive ? props.theme.purple : 'transparent'};
 
   &:hover {
     background-color: ${(props) => props.theme.purple};
