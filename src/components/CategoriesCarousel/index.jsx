@@ -31,12 +31,14 @@ export function CategoriesCarousel() {
 				{categories.map((category) => (
 					<ContainerItens key={category.id} imageUrl={category.url}>
 						<CategoryButton
-							onClick={() =>
+							onClick={(e) => {
+								e.preventDefault(); // Evita o comportamento padrão (se necessário)
+								e.stopPropagation(); // Evita conflitos de eventos (se necessário)
 								navigate({
 									pathname: '/cardapio',
 									search: `?categoria=${category.id}`,
-								})
-							}
+								});
+							}}
 						>
 							{category.name}
 						</CategoryButton>
